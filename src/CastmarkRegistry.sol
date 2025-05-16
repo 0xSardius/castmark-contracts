@@ -2,8 +2,8 @@
 pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/Pausable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/Pausable.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 /**
@@ -12,7 +12,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
  * @author sardius
  * @notice This contract allows users to register and manage collection metadata
  */
-contract CastmarkRegistry is Ownable, Pausable, ReentrancyGuard {
+contract CastmarkRegistry is Ownable(msg.sender), Pausable, ReentrancyGuard {
     // Version for tracking upgrades
     string public constant VERSION = "1.0.0";
 
@@ -59,7 +59,9 @@ contract CastmarkRegistry is Ownable, Pausable, ReentrancyGuard {
     /**
      * @dev Constructor sets the deployer as the owner
      */
-    constructor() Ownable() {}
+    constructor() {
+        _transferOwnership(msg.sender);
+    }
 
     /**
      * @dev Hash a collection ID string to bytes32 for storage efficiency

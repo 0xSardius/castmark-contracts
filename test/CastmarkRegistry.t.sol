@@ -126,7 +126,7 @@ contract CastmarkRegistryTest is Test {
 
         // Try to register while paused
         vm.startPrank(user1);
-        vm.expectRevert("Pausable: paused");
+        vm.expectRevert(abi.encodeWithSignature("EnforcedPause()"));
         registry.registerCollection(collectionId, name, url);
         vm.stopPrank();
 
